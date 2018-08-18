@@ -6,23 +6,27 @@ public class ABC080C {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
+		sc.close();
 		
-		int[][] F = new int[N][10];
+		boolean[][] F = new boolean[N][10];
 		int[][] P = new int[N][11];
 		
 		for(int i = 0;i < N;++i)
 			for(int j = 0;j < 10;++j)
-				F[i][j] = sc.nextInt();
+				F[i][j] = sc.nextInt() == 1;
 		for(int i = 0;i < N;++i)
 			for(int j = 0;j < 11;++j)
 				P[i][j] = sc.nextInt();
 		
 		int max = Integer.MIN_VALUE;
 		for(int i = 1;i < 1024;++i) {
+			boolean[] isOpen = new boolean[10];
+			for(int j = 0;j < 10;++j)
+				isOpen[j] = (i>>>j)%2 == 1;
 			int[] duplicate = new int[N];
 			for(int j = 0;j < N;++j)
 				for(int k = 0;k < 10;++k)
-					if(((i >>> k)%2 == 1) && F[j][k] == 1)
+					if(isOpen[k] && F[j][k])
 						++duplicate[j];
 			int score = 0;
 			for(int j = 0;j < N;++j)
@@ -31,6 +35,5 @@ public class ABC080C {
 				max = score;
 		}
 		System.out.println(max);
-		sc.close();
 	}
 }
